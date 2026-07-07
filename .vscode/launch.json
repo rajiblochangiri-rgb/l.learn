@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run current Lean file (lake env)",
+      "type": "pwa-node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/.bin/lake",
+      "args": ["env", "lean", "--run", "${fileBasename}"],
+      "console": "integratedTerminal"
+    }
+  ]
+}

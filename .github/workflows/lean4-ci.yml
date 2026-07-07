@@ -1,0 +1,24 @@
+name: Lean 4 CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean + Lake
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          source $HOME/.elan/bin/elan
+          elan toolchain install
+          elan default
+          lean --version
+          lake --version || echo "lake not found"
+      - name: Build with Lake
+        run: lake build --verbose
+      - name: Run Mathlib test
+        run: lake env lean --run Mathlib_test.lean
+      - name: Run exercise files
+        run: |
+          pwsh -c "./scripts/run_exercises.ps1"
